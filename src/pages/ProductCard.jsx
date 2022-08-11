@@ -30,9 +30,9 @@ function ProductCard() {
     margin: 0,
   };
 
-  useEffect(() => {
-  dispatch(getCartItems())
-  }, [])
+  // useEffect(() => {
+  // dispatch(getCartItems())
+  // }, [])
   
 
   return items.map((product, index) => {
