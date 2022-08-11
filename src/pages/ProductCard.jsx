@@ -4,7 +4,8 @@ import { useSelector,useDispatch } from "react-redux";
 import {
   increase,
   decrease,
-  getCartItems
+  getCartItems,
+  getCartTotal
 } from "../redux/feature/cartSlice";
 
 function ProductCard() {
@@ -48,7 +49,7 @@ function ProductCard() {
         <div className="price" style={priceSectionStyle}>
           <p style={{ margin: "0" }}>{product.price}</p>
           <div className="btn-group">
-            <button onClick={()=>dispatch(decrease(product.id))} className="btn btn-outline-danger">-</button>
+            <button onClick={()=>dispatch(decrease(product.id))} className="btn btn-outline-danger" disabled={product.quantity<1} >-</button>
             <button className="btn btn-outline-dark" disabled>
               {product.quantity}
             </button>
@@ -57,7 +58,7 @@ function ProductCard() {
         </div>
         <button className="btn btn-success" style={atcBtnStyling}>
           <MdOutlineShoppingCart />
-          <p  onClick={()=>dispatch(getCartItems(product.id))} style={pTagStylingZMargin}>Add to Cart</p>
+          <p  onClick={()=> dispatch(getCartTotal())} style={pTagStylingZMargin}>Add to Cart</p>
         </button>
       </div>
     );
