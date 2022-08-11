@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 function Nav() {
+  const {totalCount}=useSelector((state)=>state.cart)
   const navStyling = {
     display: "flex",
     justifyContent: "space-around",
@@ -32,7 +33,7 @@ function Nav() {
           <li>Shop</li>
         </Link>
         <Link to={"Cart"} style={linkStyling}>
-          <li>Cart 0</li>
+          <li>Cart {totalCount}</li>
         </Link>
       </ul>
     </nav>

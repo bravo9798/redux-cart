@@ -1,7 +1,17 @@
 import { productData } from "../Data/productData";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import { useSelector,useDispatch } from "react-redux";
+import {
+  increase,
+  decrease,
+  getCartItems
+} from "../redux/feature/cartSlice";
 
 function ProductCard() {
+  const dispatch=useDispatch()
+  const { totalAmount, items } = useSelector((state) => state.cart);
+  // const {id,}
+  // var newItem=items.map((item)=>item.quantity)
   const priceSectionStyle = {
     display: "flex",
     alignItem: "center",
@@ -20,7 +30,7 @@ function ProductCard() {
     margin: 0,
   };
 
-  return productData.map((product, index) => {
+  return items.map((product, index) => {
     return (
       <div
         className="card"
@@ -38,16 +48,16 @@ function ProductCard() {
         <div className="price" style={priceSectionStyle}>
           <p style={{ margin: "0" }}>{product.price}</p>
           <div className="btn-group">
-            <button className="btn btn-outline-danger">-</button>
+            <button onClick={()=>dispatch(decrease(product.id))} className="btn btn-outline-danger">-</button>
             <button className="btn btn-outline-dark" disabled>
               {product.quantity}
             </button>
-            <button className={"btn btn-outline-success"}>+</button>
+            <button onClick={()=>dispatch(increase(product.id))} className={"btn btn-outline-success"}>+</button>
           </div>
         </div>
         <button className="btn btn-success" style={atcBtnStyling}>
           <MdOutlineShoppingCart />
-          <p style={pTagStylingZMargin}>Add to Cart</p>
+          <p  onClick={()=>dispatch(getCartItems(product.id))} style={pTagStylingZMargin}>Add to Cart</p>
         </button>
       </div>
     );
