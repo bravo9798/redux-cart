@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import {
   getCartTotal,
   getCartItems,
-  decrease,
-  increase,
+  cartDecrease,
+  cartIncrease,
+  remove
 } from "../redux/feature/cartSlice";
 import { useEffect } from "react";
 
@@ -78,9 +79,9 @@ function Cart() {
                 <p style={{ margin: "0" }}>{product.price}</p>
                 <div className="btn-group">
                   <button
-                    onClick={() => dispatch(decrease(product.id))}
+                    onClick={() => dispatch(cartDecrease(product.id))}
                     className="btn btn-outline-danger"
-                    disabled={product.quantity < 1}
+                    disabled={product.quantity < 2}
                   >
                     -
                   </button>
@@ -88,7 +89,7 @@ function Cart() {
                     {product.quantity}
                   </button>
                   <button
-                    onClick={() => dispatch(increase(product.id))}
+                    onClick={() => dispatch(cartIncrease(product.id))}
                     className={"btn btn-outline-success"}
                   >
                     +
@@ -102,6 +103,11 @@ function Cart() {
                   style={pTagStylingZMargin}
                 >
                   Add to Cart
+                </p>
+              </button>
+              <button className="btn btn-danger" onClick={()=>dispatch(remove(product.id))}>
+                <p>
+                  Cancel
                 </p>
               </button>
             </div>
