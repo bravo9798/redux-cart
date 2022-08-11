@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import {
-  getCartTotal,
-  getCartItems,
   cartDecrease,
   cartIncrease,
   remove
@@ -13,9 +11,13 @@ function Cart() {
   const dispatch = useDispatch();
   const { totalAmount, items } = useSelector((state) => state.cart);
 
-  // useEffect(() => {
-  //   dispatch(getCartItems());
-  // }, []);
+  localStorage.setItem("cartItems",JSON.stringify(items))
+
+  const savedCartItems=localStorage.getItem("cartItems",items);
+
+  // console.log(JSON.stringify(savedCartItems),"savedCartItems")
+  console.log(JSON.parse(savedCartItems),"savedCartItems")
+  
 
   console.log(items, "this is final cart items");
   const listStyling = {
@@ -96,16 +98,7 @@ function Cart() {
                   </button>
                 </div>
               </div>
-              <button className="btn btn-success" style={atcBtnStyling}>
-                {/* <MdOutlineShoppingCart /> */}
-                <p
-                  onClick={() => dispatch(getCartTotal())}
-                  style={pTagStylingZMargin}
-                >
-                  Add to Cart
-                </p>
-              </button>
-              <button className="btn btn-danger" onClick={()=>dispatch(remove(product.id))}>
+              <button className="btn btn-danger" style={atcBtnStyling} onClick={()=>dispatch(remove(product.id))}>
                 <p>
                   Cancel
                 </p>

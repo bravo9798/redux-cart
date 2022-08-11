@@ -4,15 +4,14 @@ import { useSelector,useDispatch } from "react-redux";
 import {
   increase,
   decrease,
-  getCartItems,
-  getCartTotal
+  getCartTotal,
+  getCartItems
 } from "../redux/feature/cartSlice";
+import { useEffect } from "react";
 
 function ProductCard() {
   const dispatch=useDispatch()
-  const { totalAmount, items } = useSelector((state) => state.cart);
-  // const {id,}
-  // var newItem=items.map((item)=>item.quantity)
+  const { items } = useSelector((state) => state.cart);
   const priceSectionStyle = {
     display: "flex",
     alignItem: "center",
@@ -30,6 +29,11 @@ function ProductCard() {
   const pTagStylingZMargin = {
     margin: 0,
   };
+
+  useEffect(() => {
+  dispatch(getCartItems())
+  }, [])
+  
 
   return items.map((product, index) => {
     return (
