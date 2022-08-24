@@ -62,7 +62,7 @@ function ProductCard() {
         </div>
         <button className="btn btn-success" style={atcBtnStyling}>
           <MdOutlineShoppingCart />
-          <p  onClick={()=> dispatch(getCartTotal())} style={pTagStylingZMargin}>Add to Cart</p>
+          <p  onClick={()=> dispatch(getCartTotal(product.id))} style={pTagStylingZMargin}>Add to Cart</p>
         </button>
       </div>
     );

@@ -6,10 +6,37 @@ const cartSlice = createSlice({
     items: productData,
     totalAmount: 0,
     totalCount: 0,
+    shownCartItems: [],
+    mainCartItems: 0,
   },
 
   reducers: {
     getCartTotal: (state, action) => {
+      let { totalAmount, totalCount } = state.items.reduce(
+        (cartTotal, cartItem) => {
+          const { price, quantity } = cartItem;
+          const itemTotal = price * quantity;
+          cartTotal.totalAmount += itemTotal;
+          cartTotal.totalCount += quantity;
+          return cartTotal;
+        },
+        {
+          totalAmount: 0,
+          totalCount: 0,
+        }
+      );
+      state.totalAmount = parseInt(totalAmount.toFixed(2));
+      state.totalCount = totalCount;
+      state.mainCartItems = state.items.filter(item =>item.quantity>=1);
+    },
+    remove: (state, action) => {
+      state.items = state.items.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, quantity: item.quantity - item.quantity };
+        }
+        return item;
+      });
+
       let { totalAmount, totalCount } = state.items.reduce(
         (cartTotal, cartItem) => {
           const { price, quantity } = cartItem;
@@ -26,33 +53,7 @@ const cartSlice = createSlice({
       );
       state.totalAmount = parseInt(totalAmount.toFixed(2));
       state.totalCount = totalCount;
-     
-    },
-    remove: (state, action) => {
-      state.items = state.items
-        .map((item) => {
-          if (item.id === action.payload) {
-            return { ...item, quantity: item.quantity - item.quantity };
-          }
-          return item;
-        })
-
-        let { totalAmount, totalCount } = state.items.reduce(
-          (cartTotal, cartItem) => {
-            const { price, quantity } = cartItem;
-            const itemTotal = price * quantity;
-  
-            cartTotal.totalAmount += itemTotal;
-            cartTotal.totalCount += quantity;
-            return cartTotal;
-          },
-          {
-            totalAmount: 0,
-            totalCount: 0,
-          }
-        );
-        state.totalAmount = parseInt(totalAmount.toFixed(2));
-        state.totalCount = totalCount;
+      state.mainCartItems = state.items.filter(item =>item.quantity>=1);
     },
     increase: (state, action) => {
       state.items = state.items.map((item) => {
@@ -61,17 +62,16 @@ const cartSlice = createSlice({
         }
         return item;
       });
-      console.log(state.items)
+      console.log(state.items);
     },
     decrease: (state, action) => {
-      state.items = state.items
-        .map((item) => {
-          if (item.id === action.payload) {
-            return { ...item, quantity: item.quantity - 1 };
-          }
-          return item;
-        })
-      console.log(state.items)
+      state.items = state.items.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, quantity: item.quantity - 1 };
+        }
+        return item;
+      });
+      console.log(state.items);
     },
     clearCart: (state, action) => {
       state.items = [];
@@ -102,34 +102,35 @@ const cartSlice = createSlice({
       );
       state.totalAmount = parseInt(totalAmount.toFixed(2));
       state.totalCount = totalCount;
+      state.mainCartItems = state.items.filter(item =>item.quantity>=1);
     },
     cartDecrease: (state, action) => {
-      state.items = state.items
-        .map((item) => {
-          if (item.id === action.payload) {
-            return { ...item, quantity: item.quantity - 1 };
-          }
-          return item;
-        })
+      state.items = state.items.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, quantity: item.quantity - 1 };
+        }
+        return item;
+      });
 
-        let { totalAmount, totalCount } = state.items.reduce(
-          (cartTotal, cartItem) => {
-            const { price, quantity } = cartItem;
-            const itemTotal = price * quantity;
-  
-            cartTotal.totalAmount += itemTotal;
-            cartTotal.totalCount += quantity;
-            return cartTotal;
-          },
-          {
-            totalAmount: 0,
-            totalCount: 0,
-          }
-        );
-        state.totalAmount = parseInt(totalAmount.toFixed(2));
-        state.totalCount = totalCount;
+      let { totalAmount, totalCount } = state.items.reduce(
+        (cartTotal, cartItem) => {
+          const { price, quantity } = cartItem;
+          const itemTotal = price * quantity;
 
-      console.log(state.items)
+          cartTotal.totalAmount += itemTotal;
+          cartTotal.totalCount += quantity;
+          return cartTotal;
+        },
+        {
+          totalAmount: 0,
+          totalCount: 0,
+        }
+      );
+      state.totalAmount = parseInt(totalAmount.toFixed(2));
+      state.totalCount = totalCount;
+      state.mainCartItems = state.items.filter(item =>item.quantity>=1);
+
+      console.log(state.items);
     },
   },
 });

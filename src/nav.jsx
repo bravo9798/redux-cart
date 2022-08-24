@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 function Nav() {
-  const {totalCount}=useSelector((state)=>state.cart)
+  // const {totalCount}=useSelector((state)=>state.cart)
+  const { totalCount, items ,mainCartItems,shownCartItems} = useSelector((state) => state.cart);
   const navStyling = {
     display: "flex",
     justifyContent: "space-around",
@@ -13,16 +14,18 @@ function Nav() {
     top: 0,
     zIndex: 2,
   };
-
   const ListStyling = {
     display: "flex",
     justifyContent: "space-around",
     width: "50%",
     listStyle: "none",
   };
-
+  console.log(shownCartItems,"mainCartItems")
+  console.log(mainCartItems.length,"shownCartItems")
   const linkStyling = { color: "white", textDecoration: "none" };
-
+  // const length=items
+  let uniqItems=[...new Set(shownCartItems)]
+  console.log(uniqItems,"uniqItems")
   return (
     <nav style={navStyling}>
       <Link to={"/"} style={linkStyling}>
@@ -33,7 +36,7 @@ function Nav() {
           <li>Shop</li>
         </Link>
         <Link to={"Cart"} style={linkStyling}>
-          <li>Cart {totalCount}</li>
+          <li>Cart {mainCartItems.length}</li>
         </Link>
       </ul>
     </nav>
